@@ -1,0 +1,136 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<html lang="en">
+    {# head #}
+    {% block head %}
+    <head>
+        <title> books inc </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css') }}">
+        <style>
+            img {
+                width: 100%;
+                height: auto;
+                }
+            @media only screen and (min-width: 600px) {
+    .col-s-1 {width: 8.33%;}
+    .col-s-2 {width: 16.66%;}
+    .col-s-3 {width: 25%;}
+    .col-s-4 {width: 33.33%;}
+    .col-s-5 {width: 41.66%;}
+    .col-s-6 {width: 50%;}
+    .col-s-7 {width: 58.33%;}
+    .col-s-8 {width: 66.66%;}
+    .col-s-9 {width: 75%;}
+    .col-s-10 {width: 83.33%;}
+    .col-s-11 {width: 91.66%;}
+    .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+.row:after {
+    content: "";
+    clear: both;
+    display: table;
+    align:center;
+}
+        </style>
+    </head>
+    {% endblock head %}
+
+        # body #}
+    {% block body %}
+    <body>
+    <div class="wrapper">
+        {# navigation bar #}
+        {% block navbar %}
+
+            <nav>
+                <ul class="tonal" id="dropdownClick">
+                    <li><a class="active" href="{{url_for('main.display_books')}}"><b><i class="fa fa-car" aria-hidden="true"></i> Cab Management</b></a></li>
+                    <li class="tonal-right">
+                        <a href="{{ url_for('authentication.do_the_login') }}">
+                            {% if current_user.is_authenticated %}
+                                <i class="fa fa-user" aria-hidden="true"></i> Hello , <b style="color:white">{{ current_user.emp_name.title() }}</b>
+                            {% else %}
+                                <i class="fa fa-user" aria-hidden="true"></i> Hello SignIn
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="tonal-right">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('authentication.log_out_user') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> SignOut </a>
+                        {% else %}
+                            <a href="{{ url_for('authentication.do_the_login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> SignIn </a>
+                        {% endif %}
+                    </li>
+                    <li class="tonal-right"><a href="{{ url_for('authentication.register_user') }}"><i class="fa fa-bell" aria-hidden="true"></i> Register</a></li>
+                    <li class="tonal-right"><a href="{{ url_for('authentication.details_user',emp = current_user.emp_id) }}"><i class="fa fa-file-word-o" aria-hidden="true"></i> Details</a></li>
+                    <li class="tonal-right"><a href="{{ url_for('authentication.profile_user') }}"><i class="fa fa-id-card-o" aria-hidden="true"></i> Profile</a></li>
+
+                    <li class="dropdownIcon"><a href="javascript:void(0);" onclick="dropdownMenu()">&#9776;</a></li>
+                </ul>
+            </nav>
+        {% endblock navbar %}
+
+        {# flash messaging #}
+        {% for message in get_flashed_messages() %}
+                <div class="container alert alert-info" style="background-color:#FAC8B3; color:#7D7C7C; ">
+                    <button type="button" class="close" data-dismiss="alert"></button>
+                    {{ message }}
+                </div>
+        {% endfor %}
+
+
+        {# empty block for custom content #}
+        {% block content %}
+         <div class="row" align="center">
+             <h1><b>Welcome to Metrixlab Cab Management System</b></h1>
+            <div style="display: flex; justify-content: center; align:center;" class="col-6 col-s-9">
+            <img src="static/img/mainbg_large2.png" alt="Moving car" width="796" height="437" >
+            </div>
+        </div>
+        {% endblock content %}
+
+        {# footer #}
+        {% block footer %}
+            <footer style="position: relative;text-align: center;font-family: 'Niramit', sans-serif; font-size: 18px;">
+                <div>
+                    <hr>
+                    <p class="text-center small">Metrixlab Cab Management System &copy;  |  2018</p>
+                    <p class="text-center small"> @SaikrishnaThatikonda</p>
+                </div>
+            </footer>
+        {% endblock footer %}
+
+    </div>
+    <script>
+        function dropdownMenu() {
+            var x = document.getElementById("dropdownClick");
+            if (x.className === "tonal") {
+                x.className += " responsive";
+                /*change tonal to tonal.responsive*/
+            } else {
+                x.className = "tonal";
+            }
+        }
+    </script>
+    </body>
+    {% endblock body %}
+</html>
